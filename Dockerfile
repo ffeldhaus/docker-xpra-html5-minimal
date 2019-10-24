@@ -27,6 +27,11 @@ RUN chown -R 1000 /run/user/1000
 # allow users to read default certificate
 RUN chmod 644 /etc/xpra/ssl-cert.pem
 
+# add wireshark user
+RUN useradd --create-home --shell /bin/bash xpra --groups xpra --uid 1000
+USER xpra
+WORKDIR /home/xpra
+
 # expose xpra default port
 EXPOSE 14500
 
