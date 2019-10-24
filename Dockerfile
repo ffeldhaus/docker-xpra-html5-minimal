@@ -28,7 +28,7 @@ RUN chown -R 1000 /run/user/1000
 RUN chmod 644 /etc/xpra/ssl-cert.pem
 
 # add xpra user
-RUN useradd --create-home --shell /bin/bash xpra --groups xpra --uid 1000
+RUN useradd --create-home --shell /bin/bash xpra --gid xpra --uid 1000
 USER xpra
 WORKDIR /home/xpra
 
