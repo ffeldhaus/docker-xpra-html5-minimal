@@ -18,7 +18,7 @@ COPY ./xpra.conf /etc/xpra/xpra.conf
 
 # use docker-entrypoint.sh to allow passing options to xpra and start xpra from bash
 COPY docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
+#ENTRYPOINT ["/docker-entrypoint.sh"]
 
 # create run directory for xpra socket and set correct permissions
 RUN mkdir -p /run/user/1000/xpra
@@ -36,4 +36,5 @@ WORKDIR /home/xpra
 EXPOSE 14500
 
 # run xpra, options --daemon and --no-printing only work if specified as parameters to xpra start
-CMD ["/usr/bin/xpra","start","--daemon=no"]
+#CMD ["/usr/bin/xpra","start","--daemon=no"]
+CMD ["/bin/bash"]
