@@ -3,6 +3,9 @@ FROM ubuntu:18.04
 LABEL version="0.1"
 LABEL maintainer="florian.feldhaus@gmail.com"
 
+# skip interactive configuration dialogs
+ENV DEBIAN_FRONTEND noninteractive
+
 # add winswitch repository to install Xpra
 RUN apt-get update
 RUN apt-get install -y gnupg curl software-properties-common
