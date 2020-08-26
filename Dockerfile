@@ -14,7 +14,7 @@ RUN echo "deb http://xpra.org/ focal main" >> /etc/apt/sources.list.d/xpra.list;
 
 # install xpra and necessary dependencies
 RUN apt-get update
-RUN apt-get install -y python3-xpra xpra xauth xpra-html5 websockify xterm
+RUN apt-get install -y xpra xauth xpra-html5 websockify xterm
 
 # copy xpra config file
 COPY ./xpra.conf /etc/xpra/xpra.conf
