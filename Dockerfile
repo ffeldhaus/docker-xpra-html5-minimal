@@ -1,42 +1,43 @@
 FROM ubuntu:20.04
 
-LABEL version="0.2"
+LABEL version="0.3"
 LABEL maintainer="florian.feldhaus@gmail.com"
 
 # skip interactive configuration dialogs
 ENV DEBIAN_FRONTEND noninteractive
 
-# add winswitch repository to install Xpra
-RUN apt-get update
-RUN apt-get install -y gnupg curl software-properties-common
-RUN curl http://xpra.org/gpg.asc | apt-key add -
-RUN echo "deb http://xpra.org/ focal main" >> /etc/apt/sources.list.d/xpra.list;
-
-# install xpra and necessary dependencies
-RUN apt-get update
-RUN apt-get install -y xpra xauth xpra-html5 websockify xterm
+# add winswitch repository and install Xpra
+RUN apt-get update && \
+    apt-get install -y gnupg curl software-properties-common && \
+    curl http://xpra.org/gpg.asc | apt-key add - && \
+    echo "deb http://xpra.org/ focal main" >> /etc/apt/sources.list.d/xpra.list && \
+    apt-get update && \
+    apt-get install -y xpra && \
+    apt-get remove -y --purge gnupg curl software-properties-common && \
+    rm -rf /var/lib/apt/lists/*
 
 # copy xpra config file
 COPY ./xpra.conf /etc/xpra/xpra.conf
-
-# use docker-entrypoint.sh to allow passing options to xpra and start xpra from bash
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-# create run directory for xpra socket and set correct permissions
-RUN mkdir -p /run/user/1000/xpra
-RUN chown -R 1000 /run/user/1000
 
 # allow users to read default certificate
 RUN chmod 644 /etc/xpra/ssl-cert.pem
 
 # add xpra user
 RUN useradd --create-home --shell /bin/bash xpra --gid xpra --uid 1000
-USER xpra
 WORKDIR /home/xpra
 
-# expose xpra default port
+# create run directory for xpra socket and set correct permissions for xpra user
+RUN mkdir -p /run/user/1000/xpra && chown -R 1000 /run/user/1000
+
+# expose xpra HTML5 client port
 EXPOSE 14500
 
-# run xpra, options --daemon and --no-printing only work if specified as parameters to xpra start
+# use docker-entrypoint.sh to allow passing options to xpra and start xpra from bash
+COPY docker-entrypoint.sh /docker-entrypoint.sh
+ENTRYPOINT ["/docker-entrypoint.sh"]
+
+# change to user xpra
+USER xpra
+
+# run xterm by default
 CMD ["xterm"]
