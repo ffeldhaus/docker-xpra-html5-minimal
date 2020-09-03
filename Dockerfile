@@ -12,7 +12,7 @@ RUN apt-get update && \
     curl http://xpra.org/gpg.asc | apt-key add - && \
     echo "deb http://xpra.org/ focal main" >> /etc/apt/sources.list.d/xpra.list && \
     apt-get update && \
-    apt-get install -y xpra && \
+    apt-get install -y xpra python-pyinotify libvpx6 && \
     apt-get remove -y --purge gnupg curl software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
