@@ -1,6 +1,6 @@
 FROM ubuntu:20.04
 
-LABEL version="0.3"
+LABEL version="0.4"
 LABEL maintainer="florian.feldhaus@gmail.com"
 
 # skip interactive configuration dialogs
@@ -12,7 +12,7 @@ RUN apt-get update && \
     curl http://xpra.org/gpg.asc | apt-key add - && \
     echo "deb http://xpra.org/ focal main" >> /etc/apt/sources.list.d/xpra.list && \
     apt-get update && \
-    apt-get install -y xpra python-pyinotify libvpx6 && \
+    apt-get install -y xpra python-pyinotify python3-uinput libvpx6 && \
     apt-get remove -y --purge gnupg curl software-properties-common && \
     rm -rf /var/lib/apt/lists/*
 
@@ -35,9 +35,6 @@ EXPOSE 14500
 # use docker-entrypoint.sh to allow passing options to xpra and start xpra from bash
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 ENTRYPOINT ["/docker-entrypoint.sh"]
-
-# change to user xpra
-USER xpra
 
 # run xterm by default
 CMD ["xterm"]
