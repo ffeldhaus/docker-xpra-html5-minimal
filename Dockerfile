@@ -14,6 +14,7 @@ RUN apt-get update && \
     apt-get update && \
     apt-get install -y xpra python-pyinotify python3-uinput libvpx6 && \
     apt-get remove -y --purge gnupg curl software-properties-common && \
+    ap-get autoremove && \
     rm -rf /var/lib/apt/lists/*
 
 # copy xpra config file
