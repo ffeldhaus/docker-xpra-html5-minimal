@@ -16,10 +16,3 @@ COPY ./xpra.conf /etc/xpra/xpra.conf
 
 # expose xpra HTML5 client port
 EXPOSE 14500
-
-# use docker-entrypoint.sh to allow passing options to xpra and start xpra from bash
-COPY docker-entrypoint.sh /docker-entrypoint.sh
-ENTRYPOINT ["/docker-entrypoint.sh"]
-
-# run xterm by default
-CMD ["xterm"]
