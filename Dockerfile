@@ -1,4 +1,4 @@
-FROM ffeldhaus/xpra-minimal
+FROM ffeldhaus/xpra-minimal:beta
 
 LABEL version="0.5"
 LABEL maintainer="florian.feldhaus@gmail.com"
